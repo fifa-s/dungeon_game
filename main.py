@@ -7,6 +7,7 @@ from networking.client import Client
 
 WIDTH, HEIGHT = SCREEN_SIZE = (800,800)
 
+"""
 class Player(pg.sprite.Sprite):
     
     def __init__(self, *groups):
@@ -33,7 +34,7 @@ class Player(pg.sprite.Sprite):
         return {
             "pos": self.rect.center,
         }
-        
+"""
     
 if __name__ == "__main__":
     PYDEVD_DISABLE_FILE_VALIDATION=1
