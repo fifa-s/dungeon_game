@@ -8,7 +8,7 @@ class Screen:
 
         self.display = pg.display.set_mode(
             display_size,
-            flags=pg.RESIZABLE
+            flags=pg.RESIZABLE | pg.FULLSCREEN
         )
         self.screen = pg.Surface(screen_size)
 
