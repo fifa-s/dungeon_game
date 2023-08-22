@@ -1,15 +1,20 @@
 import pygame as pg
+import ctypes
 
 
 class Screen:
 
     def __init__(self, screen_size, display_size):
         pg.init()
-
+        
+        #display_size = (pg.display.Info().current_w, pg.display.Info().current_h)
+        flags = pg.RESIZABLE | pg.HWSURFACE | pg.DOUBLEBUF
         self.display = pg.display.set_mode(
             display_size,
-            flags=pg.RESIZABLE | pg.FULLSCREEN
+            flags=flags
         )
+        ctypes.windll.user32.ShowWindow(pg.display.get_wm_info()['window'], 3)  # 3 = SW_MAXIMIZE
+
         self.screen = pg.Surface(screen_size)
 
         self.clock = pg.time.Clock()
@@ -22,7 +27,6 @@ class Screen:
         self.max_fps = 20
 
         self.load()
-        self.mainLoop()
 
     def events(self):
         # overwrite in inheritance
@@ -48,7 +52,6 @@ class Screen:
             delta = self.clock.tick(
                 self.max_fps
             )
-        self.quit()
 
     def flip(self):
         if self.display_color != None:
