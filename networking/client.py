@@ -3,9 +3,9 @@ import pickle
 import multiprocessing as mp
 from pygame.time import Clock
 import networking.ipv4 as ipv4
-from networking.send import send
-from networking.network_constants import  *
-from networking.base64_int import base64_to_int
+from .send import send
+from .network_constants import  *
+from .id_int_convertion import id_to_int
 
 MSG_PER_SECOND = 8
 
@@ -31,7 +31,7 @@ class _ClientProcess:
         self.running = True
         
     def _set_id(self, id: str):
-        id_int = base64_to_int(id)
+        id_int = id_to_int(id)
         try:
             self.port = id_int & 0xFFFF
             self.ip = ipv4.int_to_ipv4((id_int >> 16))
@@ -58,3 +58,10 @@ class _ClientProcess:
             self.clock.tick(MSG_PER_SECOND)
         
 
+if __name__ == "__main__":
+    client = Client(input("id: "))
+    client.my_data["messages"] = []
+    while True:
+        input_ = input("message: ")
+        client.my_data["messages"].append(input_)
+        print(f"server_data: {client.server_data}")

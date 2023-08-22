@@ -1,11 +1,11 @@
 import socket
 import threading
 import pickle
-import networking.ipv4 as ipv4
 import multiprocessing as mp
-from networking.send import send
-from networking.network_constants import *
-from networking.base64_int import int_to_base64
+import networking.ipv4 as ipv4
+from .send import send
+from .network_constants import *
+from .id_int_convertion import int_to_id
 
 class Server:
     
@@ -28,7 +28,7 @@ class _ServerProcess:
         """returns the id that the Client class from client.py takes"""
         ip_int = ipv4.ipv4_to_int(self.ip)
         id_int =  (ip_int << 16 ) + self.port
-        return int_to_base64(id_int)
+        return int_to_id(id_int)
     
     def get_msg(self, connection):
         msg_length = pickle.loads(connection.recv(HEADER))
@@ -71,5 +71,3 @@ class _ServerProcess:
 
 if __name__ == "__main__":
     server = Server()
-
-
