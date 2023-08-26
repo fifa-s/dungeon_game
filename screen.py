@@ -1,7 +1,7 @@
 import pygame as pg
 from sys import exit
 import ctypes
-from constants import SYSTEM, SCALE_FUNCTION
+from constants import SYSTEM
 
 if SYSTEM == "Windows":
 	import ctypes
@@ -71,7 +71,7 @@ class Screen:
 			x = (dw - w) / 2
 			y = 0
 
-		transformed_screen = SCALE_FUNCTION(self.screen, (w, h))
+		transformed_screen = pg.transform.smoothscale(self.screen, (w, h))
 		self.display.blit(transformed_screen, (x, y))
 		pg.display.flip()
 
