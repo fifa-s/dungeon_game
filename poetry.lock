@@ -1,0 +1,24 @@
+[[package]]
+name = "networking"
+version = "0.0.1"
+description = "Low-level networking library"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
+name = "pygame"
+version = "2.5.1"
+description = "Python Game Development"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[metadata]
+lock-version = "1.1"
+python-versions = "^3.10"
+content-hash = "e7bd62166ac93b656ab7db6d95a79f4e469c0ca83378177aa26567f5b8f17d14"
+
+[metadata.files]
+networking = []
+pygame = []
