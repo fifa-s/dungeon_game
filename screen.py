@@ -1,4 +1,5 @@
 import pygame as pg
+from sys import exit
 import ctypes
 
 
@@ -7,13 +8,12 @@ class Screen:
     def __init__(self, screen_size, display_size):
         pg.init()
         
-        #display_size = (pg.display.Info().current_w, pg.display.Info().current_h)
         flags = pg.RESIZABLE | pg.HWSURFACE | pg.DOUBLEBUF
         self.display = pg.display.set_mode(
             display_size,
             flags=flags
         )
-        ctypes.windll.user32.ShowWindow(pg.display.get_wm_info()['window'], 3)  # 3 = SW_MAXIMIZE
+        ctypes.windll.user32.ShowWindow(pg.display.get_wm_info()['window'], 3)  # maximize the window
 
         self.screen = pg.Surface(screen_size)
 
@@ -24,42 +24,33 @@ class Screen:
 
         self.bg_color = (20,30,40)
         self.display_color = None
-        self.max_fps = 20
-
-        self.load()
+        self.max_fps = 60
+        self.running = True
 
     def events(self):
         # overwrite in inheritance
-        self.running = (True not in [True for i in self.event_list if i.type == pg.QUIT])
+        self.running = not any(i.type == pg.QUIT for i in self.event_list)
 
-    def load(self):
-        pass # overwrite in inheritance
-
-    def tick(self):
-        pass # overwrite in inheritance
-
-    def mainLoop(self):
-        self.running = True
-        while self.running:
-            self.screen.fill(
-                self.bg_color
-            )
-            self.event_list = pg.event.get()
-            self.events()
-            self.tick()
-            self.flip()
-            global delta
-            delta = self.clock.tick(
-                self.max_fps
-            )
+    def update(self):
+        """This function should be called from the end of the main loop"""
+        self.flip()
+        global delta
+        delta = self.clock.tick(
+            self.max_fps
+        )
+        self.screen.fill(
+            self.bg_color
+        )
+        self.event_list = pg.event.get()
+        self.events()
 
     def flip(self):
         if self.display_color != None:
             self.display.fill(
-            self.display_color
+                self.display_color
             )
-        sw,sh = self.screen.get_size()
-        dw,dh = self.display.get_size()
+        sw, sh = self.screen.get_size()
+        dw, dh = self.display.get_size()
         screen_ar = sw / sh
         display_ar = dw / dh
         if screen_ar > display_ar:
@@ -74,18 +65,19 @@ class Screen:
             x = (dw - w) / 2
             y = 0
             
-        transformed = pg.transform.smoothscale(
+        transformed_screen = pg.transform.smoothscale(
             self.screen,
             (w, h)
         )
         self.display.blit(
-            transformed,
-            (x,y)
+            transformed_screen,
+            (x, y)
         )
         pg.display.flip()
 
     def quit(self):
         pg.quit()
+        exit(0)
 
 
 
