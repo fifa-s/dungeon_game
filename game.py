@@ -22,4 +22,4 @@ class Game(Screen):
         ...
         
     def run(self):
-        self.menuLoop("-") # TODO: add a class Menu that would hold all information about the menu
+        self.menuLoop(None) # TODO: add a class Menu that would hold all information about the menu
